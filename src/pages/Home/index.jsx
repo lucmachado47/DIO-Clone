@@ -10,7 +10,7 @@ import React from "react";
   const navigate = useNavigate();
 
   const handleClickSignIn = () => {
-    navigate('/login')
+    navigate('/cadastro')
   }
 
   return (<>

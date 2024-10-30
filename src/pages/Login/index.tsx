@@ -12,13 +12,14 @@ import {
     TitleLogin, 
     Wrapper
   } from "./styles";
-import {Input} from '../../components/Input/';
+import {Input} from '../../components/Input';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { api } from '../../services/api';
+import { IFormData } from './types';
 
 const schema = yup.object({
   email: yup.string().email('E-mail não é válido.').required('Campo obrigatório'),
@@ -30,12 +31,12 @@ const schema = yup.object({
 
   const navigate = useNavigate();
 
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit, formState: { errors } } = useForm<IFormData>({
     resolver: yupResolver(schema),
     mode: 'onChange', 
   });
 
-  const onSubmit = async formData => {
+  const onSubmit = async (formData: IFormData) => {
     try {
       const { data } = await api.get(`/users?email=${formData.email}&senha=${formData.password}`);
       console.log("Resposta da API:", data);
@@ -53,7 +54,7 @@ const schema = yup.object({
   
 
   return (<>
-    <Header />
+    <Header autenticado={false}/>
     <Container>
       <Column>
         <Title>
